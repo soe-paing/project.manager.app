@@ -3,12 +3,10 @@ import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
 import ProjectSidebar from "./components/ProjectSidebar";
 import SelectedProject from "./components/SelectedProject";
+import { useProjectContext } from "./contexts/ProjectContext";
 
 function App() {
-  const [ projectsState, setProjectsState ] = useState({
-    selectedProjectId: undefined,
-    projects: [],
-  });
+  const { projectsState, setProjectsState } = useProjectContext();
 
   const handleStartAddProject = () => {
     setProjectsState(prevState => {
