@@ -4,17 +4,20 @@ import Button from "./Button";
 
 const Modal = forwardRef(function Modal({children}, ref) {
     const dialog = useRef();
-    useImperativeHandle(ref, () => {
-        return {open() {
+    useImperativeHandle(ref, () => ({
+        open() {
             dialog.current.showModal();
-        }}
-    })
+        },
+        close() {
+            dialog.current.close(); // Allow external close control
+        }
+    }));
     return createPortal(
         <dialog ref={dialog} className="backdrop:bg-stone-900/90 p-4 rounded-md shadow-md">
             {children}
-            <form action="dialog" className="mt-8 text-right">
-                <Button>Okay</Button>
-            </form>
+            <div className="mt-8 text-right">
+                <Button onClick={() => dialog.current.close()}>Okay</Button>
+            </div>
         </dialog>,
         document.getElementById('modal-root')
     )
