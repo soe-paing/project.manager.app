@@ -8,6 +8,7 @@ export function useProjectContext () {
 
 export default function ProjectContextProvider ({children}) {
     const [ projectsState, setProjectsState ] = useState({
+        selectedId: null,
         projects: [],
     });
 

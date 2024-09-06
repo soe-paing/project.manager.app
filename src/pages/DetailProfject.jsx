@@ -17,6 +17,7 @@ export default function DetailProject() {
         setProjectsState( prevState => {
             return {
                 ...prevState,
+                selectedId: null,
                 projects: prevState.projects.filter( project => project.id !== id)
             }
         })
