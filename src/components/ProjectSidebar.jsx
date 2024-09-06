@@ -9,11 +9,11 @@ export default function ProjectSidebar() {
         <aside className="w-1/3 px-8 py-16 bg-stone-900 text-stone-50 md:w-72 rounded-r-xl">
             <h2>Sidebar</h2>
             <div>
-                <Button>
-                    <Link to='/createproject'>
+                <Link to='/createproject'>
+                    <Button>
                         + Add New Project
-                    </Link>
-                </Button>
+                    </Button>
+                </Link>
             </div>
             <ul className="mt-8">
                 {projectsState.projects.map(project => {
@@ -24,11 +24,11 @@ export default function ProjectSidebar() {
                         classes += " text-stone-400"
                     }
                     return <li key={project.id}>
-                        <button className={classes}>
-                            <Link to={`/detailproject/${project.id}`} >
+                        <Link to={`/detailproject/${project.id}`} >
+                            <button className={classes}>
                                 {project.title}
-                            </Link>
-                        </button>
+                            </button>
+                        </Link>
                     </li>
                 })}
             </ul>
