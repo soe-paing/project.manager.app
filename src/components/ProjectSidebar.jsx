@@ -5,11 +5,11 @@ import { useProjectContext } from "../contexts/ProjectContext";
 export default function ProjectSidebar() {
     const navigate = useNavigate();
     const { projectsState, setProjectsState } = useProjectContext();
-    const activeid = projectsState.selecetedId;
+    const activeid = projectsState.selectedId;
     const handleSelect = (id) => {
         setProjectsState( prevState => ({
             ...prevState,
-            selecetedId: id,
+            selectedId: id,
         }))
         navigate(`/detailproject/${id}`);
     };
