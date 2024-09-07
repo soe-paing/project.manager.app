@@ -26,8 +26,6 @@ export default function NewTask() {
 
     const handleEnter = (e) => e.key === "Enter" && handleAddTask();
 
-    useEffect(() => console.log(projectsState), [projectsState]);
-
     return (
         <div className="flex items-center gap-4">
             <input 
