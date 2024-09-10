@@ -1,20 +1,29 @@
 {
-  "name": "refs-demo-project",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "project-manager-app",
+	"version": "1.0.0",
+	"main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "prisma": {
+    "seed": "node prisma/seeds/main.js"
+  },
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
   "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "prisma": "^5.19.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
