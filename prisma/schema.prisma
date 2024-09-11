@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Project {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
+  dueDate     DateTime
   tasks       Task[]
 }
 

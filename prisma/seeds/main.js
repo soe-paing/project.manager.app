@@ -1,6 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
+import { faker } from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-const { faker } = require('@faker-js/faker');
 
 async function main() {
     
@@ -9,11 +9,13 @@ async function main() {
         const adjective = faker.word.adjective();
         const noun = faker.word.noun();
         const title = `${adjective.charAt(0).toUpperCase() + adjective.slice(1)} ${noun.charAt(0).toUpperCase() + noun.slice(1)}`;
+        const dueDate = faker.date.future();
         const description = faker.lorem.sentences(1);
         await prisma.project.create({
             data: {
                 title,
-                description
+                description,
+                dueDate
             }
         })
     }

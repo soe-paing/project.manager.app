@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -6,6 +6,7 @@ async function main() {
         data: {
             title: "Learn React",
             description: "Some Description for testing",
+            dueDate: "2024-09-11",
             tasks: {
                 create: [
                     { text: "task one"},
