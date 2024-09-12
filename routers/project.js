@@ -1,10 +1,9 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-import { useParams } from "react-router-dom";
 const router = express.Router();
 
-router.get("/", async function (req, res) {
+router.get("/projects", async function (req, res) {
     try {
         const data = await prisma.project.findMany({
             orderBy: { id: "desc" },
@@ -15,9 +14,9 @@ router.get("/", async function (req, res) {
     }
 });
 
-router.get("/:id", async function (req, res) {
-    const { id } = useParams();
+router.get("/projects/:id", async function (req, res) {
     try {
+        const { id } = req.params;
         const data = await prisma.project.findUnique({
             where: { id: Number(id) },
             include: { tasks: true },
@@ -28,4 +27,4 @@ router.get("/:id", async function (req, res) {
     }
 });
 
-module.exports = { projectRouter: router };
+export const projectRouter = router;
