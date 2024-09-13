@@ -27,16 +27,18 @@ router.get("/projects/:id", async function (req, res) {
     }
 });
 
-// curl -X POST localhost:8000/projects -d title="Some Content" description="Some Description" dueDate="09-12-2024"
+// curl -X POST localhost:8000/projects -d title="New Title"
 router.post("/projects", async function (req, res) {
-    const { title, description, dueDate } = req.body;
+    const { title } = req.body;
     try {
-        if(!(title || description || dueDate)) {
-            return res.status(400).json({ msg: "content required" });
+        if(!(title)) {
+            return res.status(400).json({ msg: "title required" });
         }
         const project = await prisma.project.create({
             data: {
-                title, description, dueDate
+                title,
+                description: "New Description",
+                dueDate: "2024-09-22T20:47:17.162Z",
             },
             include: {
                 tasks: true,
