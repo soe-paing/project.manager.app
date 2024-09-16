@@ -8,6 +8,9 @@ import ErrorPage from './pages/ErrorPage.jsx'
 import NoProjectSelected from './pages/NoProjectSelected.jsx'
 import NewProject from './pages/NewProject.jsx'
 import DetailProject from './pages/DetailProfject.jsx'
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -33,8 +36,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ProjectContextProvider>
-      <RouterProvider router={router} />
-    </ProjectContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <ProjectContextProvider>
+        <RouterProvider router={router} />
+      </ProjectContextProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

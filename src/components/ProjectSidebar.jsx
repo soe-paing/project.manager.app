@@ -1,16 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "./Button";
 import { useProjectContext } from "../contexts/ProjectContext";
 
 export default function ProjectSidebar() {
+    const data = useProjectContext();
     const navigate = useNavigate();
-    const { projectsState, setProjectsState } = useProjectContext();
-    const activeid = projectsState.selectedId;
+    const activeid = useParams().id ?? undefined;
     const handleSelect = (id) => {
-        setProjectsState( prevState => ({
-            ...prevState,
-            selectedId: id,
-        }))
         navigate(`/detailproject/${id}`);
     };
     
@@ -25,9 +21,9 @@ export default function ProjectSidebar() {
                 </Link>
             </div>
             <ul className="mt-8">
-                {projectsState.projects.map(project => {
+                {data.map(project => {
                     let classes = "w-full text-left px-2 py-1 rounded-sm my-1 hover:text-stone-200 hover:bg-stone-800";
-                    if (project.id === activeid) {
+                    if (project.id == activeid) {
                         classes += " bg-stone-800 text-stone-200";
                     } else {
                         classes += " text-stone-400"
