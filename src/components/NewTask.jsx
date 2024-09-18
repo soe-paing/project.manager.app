@@ -1,26 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useProjectContext } from "../contexts/ProjectContext"
+import { useRef } from "react";
+// import { useProjectContext } from "../contexts/ProjectContext"
 
-export default function NewTask() {
+export default function NewTask({ addTask }) {
     const taskRef = useRef();
-    const { projectsState, setProjectsState } = useProjectContext();
+    // const { projectsState, setProjectsState } = useProjectContext();
 
     const handleAddTask = () => {
         const newText = taskRef.current.value;
         if (newText.trim() == "") return;
-        const taskId = Math.random();
-        setProjectsState( prevState => {
-            const newTask = {
-                text: newText,
-                projectId: prevState.selectedId,
-                id: taskId,
-            }
-            
-            return {
-                ...prevState,
-                tasks: [newTask, ...prevState.tasks],
-            }
-        })
+        addTask.mutate(newText);
         taskRef.current.value = '';
     }
 

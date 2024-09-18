@@ -16,7 +16,7 @@ router.get("/", async function (req, res) {
 
 // curl -X POST localhost:8000/tasks -d text="New text"
 router.post("/", async function (req, res) {
-    const { text } = req.body;
+    const { text, projectId } = req.body;
     try {
         if(!(text)) {
             return res.status(400).json({ msg: "text required" });

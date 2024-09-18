@@ -48,7 +48,7 @@ export default function DetailProject() {
                 <p className="mb-4 text-stone-400">{formattedDate(data)}</p>
                 <p className="text-stone-600 whitespace-pre-wrap">{data.description}</p>
             </header>
-            <Tasks tasks={data.tasks} />
+            <Tasks tasks={data.tasks} userId={data.id} />
         </div>
     )
 }

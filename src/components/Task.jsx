@@ -1,15 +1,29 @@
 import { useMutation, useQueryClient } from "react-query";
 import NewTask from "./NewTask";
+import { useParams } from "react-router-dom";
 
 const api = "http://localhost:8000/tasks";
 
-const deleteTask = (id) => {
+const deleteTask = id => {
     return fetch(`${api}/${id}`, { method: "DELETE" });
 }
 
-export default function Tasks({tasks}) {
+async function postTask(text, projectId) {
+    const res = await fetch(api, {
+		method: "POST",
+		body: JSON.stringify({ text, projectId }),
+		headers: {
+            "Content-Type": "application/json",
+		},
+	});
+    
+    return res.json();
+}
 
+export default function Tasks({tasks}) {
     const queryClient = useQueryClient();
+
+    const projectId = useParams();
 
     const handleClear = useMutation(
         (id) => deleteTask(id),
@@ -27,10 +41,20 @@ export default function Tasks({tasks}) {
         }
     )
 
+    const handleAddTask = useMutation(
+        text => postTask(text, Number(projectId)),
+        {
+            onSuccess: async () => {
+                await queryClient.cancelQueries("project");
+                queryClient.invalidateQueries("project");
+            }
+        }
+    )
+
     return (
         <section>
             <h2 className="text-2xl font-bold text-stone-700 mb-4">Tasks</h2>
-            <NewTask />
+            <NewTask addTask={handleAddTask} />
             {tasks.length === 0 ? (
                 <p className="text-stone-800 my-4 text-center">
                     This project does not have any tasks yet.
