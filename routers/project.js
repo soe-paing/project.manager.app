@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-router.get("/projects", async function (req, res) {
+router.get("/", async function (req, res) {
     try {
         const data = await prisma.project.findMany({
             orderBy: { id: "desc" },
@@ -14,7 +14,7 @@ router.get("/projects", async function (req, res) {
     }
 });
 
-router.get("/projects/:id", async function (req, res) {
+router.get("/:id", async function (req, res) {
     const { id } = req.params;
     try {
         const data = await prisma.project.findUnique({
@@ -28,7 +28,7 @@ router.get("/projects/:id", async function (req, res) {
 });
 
 // curl -X POST localhost:8000/projects -d title="New Title"
-router.post("/projects", async function (req, res) {
+router.post("/", async function (req, res) {
     const { title } = req.body;
     try {
         if(!(title)) {
@@ -51,7 +51,7 @@ router.post("/projects", async function (req, res) {
 })
 
 // curl -X DELETE localhost:8000/projects/8
-router.delete("/projects/:id", async function (req, res) {
+router.delete("/:id", async function (req, res) {
     const { id } = req.params;
     try {
         await prisma.project.delete({
