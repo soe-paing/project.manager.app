@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
 import NewTask from "./NewTask";
-import { useParams } from "react-router-dom";
 
 const api = "http://localhost:8000/tasks";
 

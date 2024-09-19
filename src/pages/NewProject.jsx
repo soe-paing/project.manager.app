@@ -1,47 +1,63 @@
 import { useRef } from "react";
 import Input from "../components/Input";
 import Modal from "../components/Model";
-import { Link, redirect, useNavigate } from "react-router-dom";
-import { useProjectContext } from "../contexts/ProjectContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+
+
+const api = "http://localhost:8000/projects";
+
+async function saveProject(data) {
+    const res = await fetch(api, {
+		method: "POST",
+		body: JSON.stringify({ newProject: data }),
+		headers: {
+            "Content-Type": "application/json",
+		},
+	});
+    
+    return res.json();
+}
 
 export default function NewProject() {
-    const { setProjectsState } = useProjectContext();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const modal = useRef();
-    const title = useRef();
-    const description = useRef();
-    const dueDate = useRef();
+    const titleRef = useRef();
+    const descriptionRef = useRef();
+    const dueDateRef = useRef();
 
-    const saveProject = () => {
-        const enteredTile = title.current.value;
-        const enteredDescription = description.current.value;
-        const enteredDueDate = dueDate.current.value;
+    const handleSaveTask = useMutation(
+        data => saveProject(data),
+        {
+            onSuccess: async () => {
+                await queryClient.cancelQueries("projects");
+                queryClient.invalidateQueries("projects");
+                navigate("/");
+            }
+        }
+    )
+
+    const addProject = () => {
+        const title = titleRef.current.value;
+        const description = descriptionRef.current.value;
+        const dueDateString = dueDateRef.current.value;
 
         if(
-            enteredTile.trim() === "" ||
-            enteredDescription.trim() === "" ||
-            enteredDueDate.trim() === ""
+            title.trim() === "" ||
+            description.trim() === "" ||
+            dueDateString.trim() === ""
         ) {
             modal.current.open();
             return;
         }
 
-        const projectId = Math.random();
-        const newProject = {
-            title: enteredTile,
-            description: enteredDescription,
-            dueDate: enteredDueDate,
-            id: projectId,
+        const data = {
+            title, description, dueDate: new Date(dueDateString)
         }
 
-        setProjectsState(prevState => {
-            return {
-                ...prevState,
-                projects: [...prevState.projects, newProject],
-            }
-        })
+        handleSaveTask.mutate(data)
 
-        navigate('/');
     }
 
     return (
@@ -60,12 +76,12 @@ export default function NewProject() {
                             </button>
                         </Link>
                     </li>
-                    <li><button onClick={() => saveProject()} className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950">Save</button></li>
+                    <li><button onClick={() => addProject()} className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950">Save</button></li>
                 </menu>
                 <div>
-                    <Input type="text" ref={title} label="Title" />
-                    <Input type="text" ref={description} label="Descripiton" textarea />
-                    <Input type="date" ref={dueDate} label="Due Date" />
+                    <Input type="text" ref={titleRef} label="Title" />
+                    <Input type="text" ref={descriptionRef} label="Descripiton" textarea />
+                    <Input type="date" ref={dueDateRef} label="Due Date" />
                 </div>
             </div>
         </>
