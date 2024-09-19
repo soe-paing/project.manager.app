@@ -16,20 +16,18 @@ router.get("/", async function (req, res) {
 
 // curl -X POST localhost:8000/tasks -d text="New text"
 router.post("/", async function (req, res) {
-    const { text, projectId } = req.body;
+    const { task } = req.body;
     try {
-        if(!(text)) {
+        if(!task.text || !task.projectId) {
             return res.status(400).json({ msg: "text required" });
         }
-        const task = await prisma.task.create({
-            data: {
-                text,
-                projectId,
-            }
+        const newTask = await prisma.task.create({
+            data: task,
         })
-        res.status(201).json(task);
+        res.status(201).json(newTask);
     } catch (e) {
-        res.status(500).json({ error: e})
+        console.error(e);  // This will give you full error details
+        res.status(500).json({ error: e.message || e });
     }
 })
 
@@ -39,11 +37,11 @@ router.delete("/:id", async function (req, res) {
     try {
         await prisma.task.delete({
             where: { id: Number(id) },
-        })
-        res.status(204);
+        });
+        res.status(204).send(); // Ensure you send a response after setting status
     } catch (e) {
-        res.status(500).json({ error: e})
+        res.status(500).json({ error: e.message });
     }
-})
+});
 
 export const taskRouter = router;

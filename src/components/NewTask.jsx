@@ -1,9 +1,7 @@
 import { useRef } from "react";
-// import { useProjectContext } from "../contexts/ProjectContext"
 
 export default function NewTask({ addTask }) {
     const taskRef = useRef();
-    // const { projectsState, setProjectsState } = useProjectContext();
 
     const handleAddTask = () => {
         const newText = taskRef.current.value;

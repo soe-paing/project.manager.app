@@ -11,7 +11,7 @@ const deleteTask = id => {
 async function postTask(text, projectId) {
     const res = await fetch(api, {
 		method: "POST",
-		body: JSON.stringify({ text, projectId }),
+		body: JSON.stringify({ task: { text, projectId } }),
 		headers: {
             "Content-Type": "application/json",
 		},
@@ -20,10 +20,8 @@ async function postTask(text, projectId) {
     return res.json();
 }
 
-export default function Tasks({tasks}) {
+export default function Tasks({tasks, projectId}) {
     const queryClient = useQueryClient();
-
-    const projectId = useParams();
 
     const handleClear = useMutation(
         (id) => deleteTask(id),
@@ -42,7 +40,7 @@ export default function Tasks({tasks}) {
     )
 
     const handleAddTask = useMutation(
-        text => postTask(text, Number(projectId)),
+        text => postTask(text, projectId),
         {
             onSuccess: async () => {
                 await queryClient.cancelQueries("project");
