@@ -18,7 +18,7 @@ This localhost project was created with React and Prisma, sqlite
 
 # Step 4
 # host local database with this command
-###     `npx nodemon index.js`
+###     `npx run host`
 
 # Step 5
 # host the project with this command
