@@ -28,7 +28,6 @@ export default function Tasks({tasks, projectId}) {
             onMutate: async id => {
                 await queryClient.cancelQueries("project");
                 queryClient.setQueriesData("project", old => {
-                    console.log(old);
                     return ({
                         ...old,
                         tasks: old.tasks.filter( task => task.id !== id )
